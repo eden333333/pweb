@@ -1,33 +1,34 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import UserView  from './components/UserView';
 import './App.css'
+import Login from './components/Login';
+import CreatePost from './components/CreatePost';
+import PostList from './components/PostList';
+
+const users = [
+  {firstName:'Avi', lastname:'Cohen', email:'avic@mail.com', password:'12345'},
+  {firstName:'aaa f', lastname:'aaa l', email:'aaa@mail.com', password:'12345'},
+  {firstName:'bbb f', lastname:'bbb l', email:'bbb@mail.com', password:'12345'},
+  {firstName:'ccc f', lastname:'ccc l', email:'ccc@mail.com', password:'12345'}
+]
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+     
+      <h1>App name</h1>
+      <Login/>
+      <PostList/>
+      <CreatePost/>
+      {
+        users.map( user => <UserView key={user.email}  user={user} />)
+      }
+      
+      
+      
     </>
   )
 }
