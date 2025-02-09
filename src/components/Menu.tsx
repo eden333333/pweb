@@ -1,4 +1,3 @@
-import {useState} from 'react';
 import { NavLink } from 'react-router-dom';
 const Menu = () => {
     // const [userAuthenticated, setUserAuthenticated] = useState<boolean>(false)
