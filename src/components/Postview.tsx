@@ -1,20 +1,18 @@
-export type User = {
-    id: number;
-    name: string;
+import Post from "../models/Post";
+import AddComment from "./AddComment";
+
+
+type PostViewProps = {
+    post: Post
 }
-export type PostType = {
-    id: number;
-    content: string;
-    creationDate: Date;
-    user: User
-}
-const Postview = (props: { post: PostType }) => {
-    const post = props.post;
+
+const Postview = ( { post}: PostViewProps) => {
     return (
         <div key={post.id}>
             <p>{post.content}</p>
             <label>Created by</label>
-            <span>{post.user.name}</span>
+            <span>{post.user.firstName + " " + post.user.lastName}</span>
+            <AddComment/>
         </div>
     );
 

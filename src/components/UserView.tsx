@@ -9,7 +9,7 @@ const UserView = (props :UserViewProps) =>{        // parameter properties
     const user =  props.user;
     return(
         <div>
-            <p>{user.firstName} {user.lastname}</p>
+            <p>{user.firstName} {user.lastName}</p>
             <hr />
             <p>{user.email}</p>
         </div>

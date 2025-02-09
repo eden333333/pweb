@@ -1,21 +1,34 @@
 import {useState} from 'react';
-
+import { NavLink } from 'react-router-dom';
 const Menu = () => {
-    const [userAuthenticated, setUserAuthenticated] = useState<boolean>(false)
+    // const [userAuthenticated, setUserAuthenticated] = useState<boolean>(false)
 
+    // return(
+    //     <>
+    //         {!userAuthenticated ?(
+    //         <ol>
+    //             <li><NavLink to="/login">Login</NavLink></li>
+    //             <li><NavLink to="/register">Register</NavLink></li>
+    //         </ol>):(
+    //         <ol>
+    //             <li><NavLink to="/logout">Logout</NavLink></li>
+    //             <li><NavLink to="/profile">Profile</NavLink></li>
+    //             <li><NavLink to="/content">Content</NavLink></li>
+    //             <li><NavLink to="/create-post">Create Post</NavLink></li>
+    //         </ol>)}
+    //     </>
+    // )
     return(
         <>
-            {!userAuthenticated ?(
+            
             <ol>
-                <li>Login</li>
-                <li>Register</li>
-            </ol>):(
-            <ol>
-                <li>Logout</li>
-                <li>Profile</li>
-                <li>Content</li>
-                <li>Create Post</li>
-            </ol>)}
+                <li><NavLink to="/login">Login</NavLink></li>
+                <li><NavLink to="/register">Register</NavLink></li>
+                <li><NavLink to="/logout">Logout</NavLink></li>
+                <li><NavLink to="/profile">Profile</NavLink></li>
+                <li><NavLink to="/content">Content</NavLink></li>
+                <li><NavLink to="/create-post">Create Post</NavLink></li>
+            </ol>
         </>
     )
 }

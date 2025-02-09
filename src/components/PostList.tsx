@@ -1,13 +1,11 @@
+import Post from '../models/Post';
 import './PostList.css'
 import Postview from './Postview';
-const posts = [
-    {id:1, content:'abc', creationDate: new Date(), user:{id:1, name:'moshe'}},
-    {id:2, content:'asdfdsbc', creationDate: new Date(), user:{id:3, name:'Shaul'}},
-    {id:3, content:'asdfds sdf\n sfdsabc', creationDate: new Date(), user:{id:2, name:'Avi'}},
-    {id:4, content:'sdfds\'t sdfds\n', creationDate: new Date(), user:{id:1, name:'moshe'}},
-    {id:5, content:'def', creationDate: new Date(), user:{id:1, name:'moshe'}},
-]
-const PostList = () => {
+
+type PostListProps = {
+    posts: Post[]
+}
+const PostList = ({posts}:PostListProps) => {
     return ( <div>
     <div>PostList</div>
 

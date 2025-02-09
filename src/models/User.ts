@@ -1,9 +1,11 @@
 
-interface User{
+interface User {
+    id?: number, // רק לאחר הרשמה
     firstName: string,
-        lastname: string,
-        email: string,
-        password: string,
+    lastName: string,
+    email: string,
+    password: string,
+    birthDate: string;
 }
 
 export default User;
