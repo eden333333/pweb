@@ -1,6 +1,6 @@
 
 interface User {
-    id?: number, // רק לאחר הרשמה
+    _id?: string, // רק לאחר הרשמה
     firstName: string,
     lastName: string,
     email: string,

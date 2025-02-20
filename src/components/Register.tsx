@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import User from "../models/User";
+import {registerUser} from '../api/auth';
 
 
 
@@ -21,16 +22,16 @@ const Register = () => {
     const onSubmit = (event: FormEvent) => {
         event.preventDefault();
         console.log(data);
-
-        fetch('http://localhost:550/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then((response) => response.json())
-        .then((resp) => console.log(resp));
+        registerUser(data);
+        // fetch('http://localhost:550/register', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(data)
+        // })
+        // .then((response) => response.json())
+        // .then((resp) => console.log(resp));
     };
 
     return (

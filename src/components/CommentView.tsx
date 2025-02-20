@@ -1,4 +1,4 @@
-import Comment from '../models/comment'; // ייבוא מודל של תגובה
+import Comment from '../models/Comment'; // ייבוא מודל של תגובה
 
 
 const CommentView = ({ comment }: { comment: Comment }) => {

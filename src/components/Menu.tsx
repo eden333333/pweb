@@ -1,4 +1,6 @@
 import { NavLink } from 'react-router-dom';
+
+import './Menu.css';
 const Menu = () => {
     // const [userAuthenticated, setUserAuthenticated] = useState<boolean>(false)
 
@@ -18,9 +20,10 @@ const Menu = () => {
     //     </>
     // )
     return(
-        <>
+        <div className="menu-container">
             
             <ol>
+                <li><NavLink to="/">Home</NavLink></li>
                 <li><NavLink to="/login">Login</NavLink></li>
                 <li><NavLink to="/register">Register</NavLink></li>
                 <li><NavLink to="/logout">Logout</NavLink></li>
@@ -28,7 +31,7 @@ const Menu = () => {
                 <li><NavLink to="/content">Content</NavLink></li>
                 <li><NavLink to="/create-post">Create Post</NavLink></li>
             </ol>
-        </>
+        </div>
     )
 }
 

@@ -1,8 +1,9 @@
 
 interface Comment { // מבנה נתונים לתגובה
-    id: number;
+    id?: string;
     postId: number;
     name: string;
     comment: string;
+    createdAt: Date;
 }
 export default Comment; 

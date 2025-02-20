@@ -1,45 +1,49 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, useContext } from "react";
+import { loginUser } from '../api/auth';
+import User from "../models/User";
+import { Context } from "../context/Context";
 
-type LoginData ={
+import './Login.css';
+
+type LoginData = {
     email: string;
-    password:string;
+    password: string;
 }
 const Login = () => {
-    const [data, setData] = useState<LoginData>({email:'', password:''});
+    const ctx = useContext(Context);
+    const [data, setData] = useState<LoginData>({ email: '', password: '' });
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         const id = event.target.id;
         const value = event.target.value;
-        setData({...data, [id]:value})      // ...data == {email:"...", pssword:"...", email="123"}
+        setData({ ...data, [id]: value })      // ...data == {email:"...", pssword:"...", email="123"}
 
     }
 
-    const onSubmit = (event: FormEvent ) => {
+    const onSubmit = async (event: FormEvent) => {
         //TODO send login
         event.preventDefault(); // לעצור את השליחה של הטופס
         console.log(data);
-
-        fetch('http://localhost:550/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then((response) => response.json())
-        .then((resp) => console.log(resp))
+        const loginResponse: { user: User, token: string } = await loginUser(data.email, data.password);
+        ctx.setUser(loginResponse.user);
+        ctx.setToken(loginResponse.token);
     }
 
-    return(
-        <div>
-            <form onSubmit={onSubmit}>
+    return (
+
+        <form onSubmit={onSubmit} className='login-container'>
+            <div className="field">
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" placeholder="your email" value={data.email} onChange={onChange} required/> 
+                <input type="email" id="email" placeholder="your email" value={data.email} onChange={onChange} required />
+            </div>
+            <div className="field">
                 <label htmlFor="password">Password</label>
-                <input type="password" id="password" placeholder="your password" value={data.password} onChange={onChange}/>
+                <input type="password" id="password" placeholder="your password" value={data.password} onChange={onChange} />
+            </div>
+            <div className="field">
                 <button type="submit">LOGIN</button>
-            </form>
-        </div>
+            </div>
+        </form>
     )
 }
 export default Login;

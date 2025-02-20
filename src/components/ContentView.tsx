@@ -36,18 +36,18 @@ import Post from "../models/Post";
     password: string,
 */
 const dummyPosts:Post[] = [
-    {id:1, content:'abc', creationDate: new Date(), user:{id:1, firstName:'moshe', lastName: 'Levi', email:'mlevi@mail.com', password:'12345'}},
-    {id:2, content:'asdfdsbc', creationDate: new Date(), user:{id:3,firstName:'shaul', lastName: 'Levi', email:'shaul@mail.com', password:'12345'}},
-    {id:3, content:'asdfds sdf\n sfdsabc', creationDate: new Date(), user:{id:2,firstName:'Avi', lastName: 'Levi', email:'avi@mail.com', password:'12345'}},
-    {id:4, content:'sdfds\'t sdfds\n', creationDate: new Date(), user:{id:1, firstName:'moshe', lastName: 'Levi', email:'mlevi@mail.com', password:'12345'}},
-    {id:5, content:'def', creationDate: new Date(), user:{id:1, firstName:'moshe', lastName: 'Levi', email:'mlevi@mail.com', password:'12345'}},
+    {id:'1', content:'abc', creationDate: new Date(), user:{id:'1', firstName:'moshe', lastName: 'Levi', email:'mlevi@mail.com', password:'12345', birthDate:'1990-01-01'}},
+    {id:'2', content:'asdfdsbc', creationDate: new Date(), user:{id:'3',firstName:'shaul', lastName: 'Levi', email:'shaul@mail.com', password:'12345', birthDate:'1990-01-01'}},
+    {id:'3', content:'asdfds sdf\n sfdsabc', creationDate: new Date(), user:{id:'2',firstName:'Avi', lastName: 'Levi', email:'avi@mail.com', password:'12345', birthDate:'1990-01-01'}},
+    {id:'4', content:'sdfds\'t sdfds\n', creationDate: new Date(), user:{id:'1', firstName:'moshe', lastName: 'Levi', email:'mlevi@mail.com', password:'12345', birthDate:'1990-01-01'}},
+    {id:'5', content:'def', creationDate: new Date(), user:{id:'1', firstName:'moshe', lastName: 'Levi', email:'mlevi@mail.com', password:'12345', birthDate:'1990-01-01'}},
 ]
 
 const ContentView = () => {
     const [view, setView] = useState<"all" | "my">("all");
     const [posts, setPosts] = useState<Post[]>(dummyPosts);
 
-    const currentUser = {id:1, firstName:'moshe', lastName: 'Levi', email:'mlevi@mail.com', password:'12345'};
+    const currentUser = {id:'1', firstName:'moshe', lastName: 'Levi', email:'mlevi@mail.com', password:'12345', birthDate:'1990-01-01'};
 
     const postsToShow = view === "all" ? posts : posts.filter(post => post.user.id === currentUser.id);
 

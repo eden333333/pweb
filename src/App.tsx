@@ -1,6 +1,4 @@
 
-
-import './App.css'
 import Login from './components/Login';
 import CreatePost from './components/CreatePost';
 import ContentView from './components/ContentView';
@@ -8,6 +6,9 @@ import Menu from './components/Menu';
 import {Routes, Route,} from 'react-router-dom';
 import Register from './components/Register';
 import Profile from './components/Profile';
+import Home from './components/Home';
+
+import './App.css'
 
 
 // const users = [
@@ -24,10 +25,11 @@ function App() {
   return (
     <>
      
-      <h1>App name</h1>
       <Menu />
+      <h1>App name</h1>
 
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="/content" element={<ContentView />} />
@@ -35,6 +37,10 @@ function App() {
         <Route path="/profile" element={<Profile />} />
       </Routes>
 
+      <div className="footer">
+        <span>Leafs</span>
+        <span>(C) 2025</span>
+      </div>
     </>
   )
 }
