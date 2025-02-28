@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useState, useContext } from "react";
 import { loginUser } from '../api/auth';
 import User from "../models/User";
 import { Context } from "../context/Context";
+import { useNavigate } from "react-router-dom";
 
 import './Login.css';
 
@@ -11,7 +12,8 @@ type LoginData = {
 }
 const Login = () => {
     const ctx = useContext(Context);
-    const [data, setData] = useState<LoginData>({ email: '', password: '' });
+    const navigate = useNavigate();
+    const [data, setData] = useState<LoginData>({ email: 'aaa@mail.com', password: '12345' });
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         const id = event.target.id;
@@ -20,13 +22,18 @@ const Login = () => {
 
     }
 
-    const onSubmit = async (event: FormEvent) => {
+    const onSubmit = async (event: FormEvent) =>  {
         //TODO send login
         event.preventDefault(); // לעצור את השליחה של הטופס
         console.log(data);
-        const loginResponse: { user: User, token: string } = await loginUser(data.email, data.password);
-        ctx.setUser(loginResponse.user);
-        ctx.setToken(loginResponse.token);
+        const loginResponse = await loginUser(data.email, data.password);
+        if(loginResponse.ok){
+            const {user, token} = loginResponse.data!;
+            ctx.setAuth(user, token);
+            navigate('/content');
+        }else{
+            alert(loginResponse.message);
+        }
     }
 
     return (

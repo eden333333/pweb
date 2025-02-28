@@ -3,24 +3,26 @@ import { serverPort, serverUrl } from "./serverApi";
 
 const commentUrl = '/api/comments';
 
-export const createComment = async (comment: Comment): Promise<Comment> => {
+export const createComment = async (comment: Comment, token: string): Promise<Comment> => {
     const url = `${serverUrl}:${serverPort}${commentUrl}`;
     const response = await fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'authorization': `Bearer ${token}`
         },
         body: JSON.stringify(comment)
     });
     return await response.json();
 };
 
-export const updateComment = async (comment: Comment): Promise<Comment> => {
+export const updateComment = async (comment: Comment, token:string): Promise<Comment> => {
     const url = `${serverUrl}:${serverPort}${commentUrl}`;
     const response = await fetch(url, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'authorization': `Bearer ${token}`
         },
         body: JSON.stringify(comment)
     });
@@ -33,9 +35,13 @@ export const getComments = async (): Promise<Comment[]> => {
     return await response.json();
 };
 
-export const getCommentsByPost = async (postId: string): Promise<Comment[]> => {
-    const url = `${serverUrl}:${serverPort}${commentUrl}/?postid=${postId}`;
-    const response = await fetch(url);
+export const getCommentsByPost = async (postId: string, token: string): Promise<Comment[]> => {
+    const url = `${serverUrl}:${serverPort}${commentUrl}/?postId=${postId}`;
+    const response = await fetch(url, {
+        headers:{
+            'authorization': `Bearer ${token}`
+        }
+    });
     return await response.json();
 };
 

@@ -1,10 +1,12 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import User from "../models/User";
 import {registerUser} from '../api/auth';
+import { useNavigate } from "react-router-dom";
 
 
 
 const Register = () => {
+    const navigate = useNavigate()
     const [data, setData] = useState<User>({
         firstName: '',
         lastName: '',
@@ -23,15 +25,8 @@ const Register = () => {
         event.preventDefault();
         console.log(data);
         registerUser(data);
-        // fetch('http://localhost:550/register', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(data)
-        // })
-        // .then((response) => response.json())
-        // .then((resp) => console.log(resp));
+        alert('Registration successfull');
+        navigate('/login');
     };
 
     return (

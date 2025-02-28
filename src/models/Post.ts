@@ -1,9 +1,9 @@
 import User from "./User";
 
  type Post = {
-    id?: string;
+    _id?: string;
     content: string;
     creationDate: string;
-    user?: string
+    user?: string|User
 }
 export default Post;    

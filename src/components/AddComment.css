@@ -1,0 +1,8 @@
+.add-comment{
+    display: flex;
+    align-items: center;
+}
+
+.add-comment > *{
+    margin: 5px;
+}

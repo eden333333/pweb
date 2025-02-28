@@ -1,4 +1,5 @@
 import Post from "../models/Post";
+import  Response  from "../models/Response";
 import { serverPort, serverUrl } from "./serverApi";
 
 const posturl = '/api/posts';
@@ -29,10 +30,21 @@ export const updatePost = async (post: Post, token:string): Promise<Post> => {
     return await response.json();
 };
 
-export const getPosts = async (): Promise<Post[]> => {
+// Promise<Response<LoginResponse>> 
+export const getPosts = async (token:string): Promise<Response<Post[]>>  => {
+    const postsResponse: Response<Post[]> = {ok:true, message: '', data: undefined};
     const url = `${serverUrl}:${serverPort}${posturl}`;
-    const response = await fetch(url);
-    return await response.json();
+    const response = await fetch(url, {
+        headers: {
+            'authorization': `Bearer ${token}`
+        }
+    });
+    if(!response.ok){
+        postsResponse.ok = false;
+        return postsResponse;
+    }
+    postsResponse.data = await response.json();
+    return postsResponse;
 };
 
 export const getPostsByUser = async (userid: string): Promise<Post[]> => {

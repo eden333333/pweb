@@ -4,14 +4,15 @@ import './CreatePost.css'
 import Post from "../models/Post";
 import { createPost } from "../api/postApi";
 import { Context } from "../context/Context";   
+import { useNavigate } from "react-router-dom";
 
 
 const CreatePost = () => {
     const ctx = useContext(Context);
-    console.log(ctx.user);
+    const navigate = useNavigate();
     
     // if ! userId: ctx.user, navigate to homepage
-    const [post, setPost] = useState<Post>({ creationDate: new Date().toLocaleString('he-IL'), content: '', user: ctx.user?._id });
+    const [post, setPost] = useState<Post>({ creationDate: new Date().toISOString().split(".")[0], content: '', user: ctx.user?._id });
     const onChange = (event: ChangeEvent<HTMLInputElement>|ChangeEvent<HTMLTextAreaElement>) => {
         const id = event.target.id;
         const value = event.target.value;
@@ -20,7 +21,8 @@ const CreatePost = () => {
     }
  const onSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        await createPost(post, ctx.token!);
+        const createdPost =- await createPost(post, ctx.token!);
+        navigate('/content')
     };
 
     return (

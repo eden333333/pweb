@@ -1,3 +1,4 @@
+import Response, {LoginResponse} from '../models/Response';
 import User from "../models/User";
 import { serverPort, serverUrl } from "./serverApi";
 const authurl = '/api/auth';
@@ -16,7 +17,9 @@ export const registerUser = (user:User) => {
     .then((response) => response.json())
     .then((resp) => console.log(resp));
 } 
-export const loginUser = async (email:string, password:string) : Promise<{user:User, token:string}> =>  {
+
+export const loginUser = async (email:string, password:string) : Promise<Response<LoginResponse>> =>  {
+    const loginResponse: Response<LoginResponse> = {ok:true, message: '', data: undefined};
     const url = `${serverUrl}:${serverPort}${authurl}/login`;
     const response = await fetch(url, {
         method: 'POST',
@@ -25,7 +28,12 @@ export const loginUser = async (email:string, password:string) : Promise<{user:U
         },
         body: JSON.stringify({email, password})
     })
-    const loginResponse = await response.json();
+    if(response.ok === false){
+        loginResponse.ok = false;
+        loginResponse.message = 'Invalid email or password';    
+        return loginResponse;
+    }
+    loginResponse.data = await response.json(); //{user:{...}, token: '...'}
         
     return loginResponse;
     

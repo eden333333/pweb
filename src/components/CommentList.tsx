@@ -1,37 +1,25 @@
-/* const CommentList = () => {
-    return ( <div>
-    <div>CommentList.tsx</div>
-    <p>
-        Cdeteals
-    </p>
-    <p>
-        user
-    </p>`
-    </div>
 
-    );
-
-
-
-}
-export default CommentList;
-*/
-import { useState, useEffect } from "react";
-
+import { useState, useEffect, useContext } from "react";
+import { Context } from "../context/Context";
 import CommentView from "./CommentView";
 import Comment from "../models/Comment";
+import {getCommentsByPost} from "../api/commentApi";
 
 
 type props = { postId: string };
 const CommentList = ({postId}:props) => {
+    const ctx = useContext(Context);
     const [comments, setComments] = useState<Comment[]>([]);
 
+    const getComments = async () => {
+        const comments = await getCommentsByPost(postId, ctx.token);
+        if(comments){
+            setComments(comments);
+        }
+    }
     // טעינת תגובות מהשרת
     useEffect(() => {
-        fetch("http://localhost:550/comments/"+postId)
-            .then((response) => response.json())
-            .then((data) => setComments(data))
-            .catch((error) => console.error("Error fetching comments:", error));
+        getComments();
     }, []);
 
 
@@ -40,7 +28,7 @@ const CommentList = ({postId}:props) => {
             <h2>Comments</h2>
             <ul>
                 {comments.map((comment:Comment) => (
-                    <CommentView key={comment.id} comment={comment} />
+                    <CommentView key={comment._id} comment={comment} />
                 ))}
             </ul>
             

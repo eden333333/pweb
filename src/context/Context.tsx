@@ -1,23 +1,56 @@
-import React from "react";
+import React, { useEffect } from "react";
 import User from "../models/User";
 
 type ContextType = {
     user?: User
-    setUser: (user:User) =>void
-    token?: string
-    setToken: (token:string) =>void
+    token: string
+    setAuth: (user:User,token:string) =>void,
+    logout: () =>void
 }
 export const Context = React.createContext<ContextType>({
-    setUser: (user:User) =>{},
-    setToken: (token:string) =>{},
+    setAuth: (user:User,token:string) =>{},
+    token:'',
+    user: {birthDate:'', firstName: '', lastName: '', email: '', password: ''},
+    logout: () => {}
 });
 
  const ContextProvider = ({ children }: {children:React.ReactElement}) => {
-    const [user, setUser] = React.useState<User>();
-    const [token, setToken] = React.useState<string>();
+    const defaultUser = {token:'', user: {birthDate:'', firstName: '', lastName: '', email: '', password: ''}};
+    const [authData, setAuthData] = React.useState<{token:string, user:User}>(defaultUser);
+    const [isLoading , setIsLoading] = React.useState<boolean>(false);
+
+     const setAuth = (user:User, token:string) =>{
+        setAuthData({token, user});
+     }
+
+     const logout = () => {
+        setAuthData(defaultUser)
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+     }
+     useEffect(() => {  
+        const token = localStorage.getItem('token');  
+        const userString = localStorage.getItem('user');
+        if (token || userString) {   
+            setIsLoading(true);
+            setAuthData((prev) => {
+                let user:User|undefined =undefined;
+                if(userString)
+                    user = JSON.parse(userString);
+                setIsLoading(false);
+                if(user)
+                    return {token, user};
+                else
+                    return {...authData};
+            });  
+        }
+        
+
+     }, [])
     return (
-        <Context.Provider value={{user, setUser, token, setToken}}>
-            {children}
+        <Context.Provider value={{user: authData.user, setAuth, token:authData.token, logout}}>
+
+            {isLoading ?<div>Loading please wait</div> : children}
         </Context.Provider>
     )
 } // המטרה ליצור קונטקסט עבור האפליקציה

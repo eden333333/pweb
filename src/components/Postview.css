@@ -1,0 +1,15 @@
+.post-view{
+    margin: 5px;
+    padding: 5px;
+    box-shadow: 1px 1px 2px 2x x#AAA;
+    background-color: bisque;
+}
+
+.created-by{
+    display: flex;
+    justify-content: flex-start  ;
+}
+
+.created-by > *{
+    margin: 5px;
+}

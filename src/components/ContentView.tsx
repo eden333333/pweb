@@ -1,33 +1,10 @@
-/*
-const ContentView = () => {
-    return ( <div>
-    <div>Postview</div>
-    <button>
-        allpost
-    </button>
-
-    <button>
-        mypost  
-    </button>
-    <div>
-        listpost
-    </div>
-    <p>
-        user
-    </p>
-    </div>
-
-    );
-
-
-
-}
-export default ContentView;
-*/
-
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import PostList from "./PostList";
 import Post from "../models/Post";
+import {getPosts} from '../api/postApi';
+import { Context } from "../context/Context";   
+import { useNavigate } from "react-router-dom";
+import User from "../models/User";
 
 /*
     firstName: string,
@@ -35,30 +12,42 @@ import Post from "../models/Post";
     email: string,
     password: string,
 */
-const dummyPosts:Post[] = [
-    {id:'1', content:'abc', creationDate: new Date(), user:{id:'1', firstName:'moshe', lastName: 'Levi', email:'mlevi@mail.com', password:'12345', birthDate:'1990-01-01'}},
-    {id:'2', content:'asdfdsbc', creationDate: new Date(), user:{id:'3',firstName:'shaul', lastName: 'Levi', email:'shaul@mail.com', password:'12345', birthDate:'1990-01-01'}},
-    {id:'3', content:'asdfds sdf\n sfdsabc', creationDate: new Date(), user:{id:'2',firstName:'Avi', lastName: 'Levi', email:'avi@mail.com', password:'12345', birthDate:'1990-01-01'}},
-    {id:'4', content:'sdfds\'t sdfds\n', creationDate: new Date(), user:{id:'1', firstName:'moshe', lastName: 'Levi', email:'mlevi@mail.com', password:'12345', birthDate:'1990-01-01'}},
-    {id:'5', content:'def', creationDate: new Date(), user:{id:'1', firstName:'moshe', lastName: 'Levi', email:'mlevi@mail.com', password:'12345', birthDate:'1990-01-01'}},
-]
 
 const ContentView = () => {
+    const ctx = useContext(Context);
+    const navigate = useNavigate();
     const [view, setView] = useState<"all" | "my">("all");
-    const [posts, setPosts] = useState<Post[]>(dummyPosts);
+    const [posts, setPosts] = useState<Post[]>([]);
 
-    const currentUser = {id:'1', firstName:'moshe', lastName: 'Levi', email:'mlevi@mail.com', password:'12345', birthDate:'1990-01-01'};
+    const filterPosts = () => {
+        return view === "all" ? posts : posts.filter(post => (post.user as User)!._id! === ctx.user!._id!);
+    }
 
-    const postsToShow = view === "all" ? posts : posts.filter(post => post.user.id === currentUser.id);
+    const getAllPosts = async () => {
+        if(!ctx.token){
+            navigate('/')
+        }
+        const response = await getPosts(ctx.token!);
+        if(response.ok){
+            setPosts(response.data!)
+        }else{
+            navigate('/login')
+        }
+    }
+    useEffect( () => {
+        getAllPosts();
+    }, [])
+    useEffect( () => {
 
+    }, [view])
     return (
         <div>
-            <h2>Post View</h2>
+            <h2>Posts View</h2>
             <button onClick={() => setView("all")}>All Posts</button>
             <button onClick={() => setView("my")}>My Posts</button>
+            <p>{view}</p>
             <div>
-                <h3>List of Posts</h3>
-              <PostList posts={postsToShow}/>
+              <PostList posts={filterPosts()}/>
 
             </div>
         </div>

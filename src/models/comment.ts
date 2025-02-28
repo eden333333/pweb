@@ -1,9 +1,10 @@
+import User from "./User";
 
 interface Comment { // מבנה נתונים לתגובה
-    id?: string;
-    postId: number;
-    name: string;
+    _id?: string;
+    postId: string;
+    user: string|User;
     comment: string;
-    createdAt: Date;
+    createdAt: string;
 }
 export default Comment; 

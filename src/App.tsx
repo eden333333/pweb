@@ -1,4 +1,5 @@
-
+import { useContext } from 'react';
+import { Context } from './context/Context';
 import Login from './components/Login';
 import CreatePost from './components/CreatePost';
 import ContentView from './components/ContentView';
@@ -11,14 +12,6 @@ import Home from './components/Home';
 import './App.css'
 
 
-// const users = [
-//   {firstName:'Avi', lastname:'Cohen', email:'avic@mail.com', password:'12345'},
-//   {firstName:'aaa f', lastname:'aaa l', email:'aaa@mail.com', password:'12345'},
-//   {firstName:'bbb f', lastname:'bbb l', email:'bbb@mail.com', password:'12345'},
-//   {firstName:'ccc f', lastname:'ccc l', email:'ccc@mail.com', password:'12345'}
-// ]
-
-
 function App() {
 
 
@@ -26,8 +19,7 @@ function App() {
     <>
      
       <Menu />
-      <h1>App name</h1>
-
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
