@@ -21,21 +21,21 @@ const CreatePost = () => {
     }
  const onSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        const createdPost =- await createPost(post, ctx.token!);
+        const createdPost = await createPost(post, ctx.token!);
         navigate('/content')
     };
 
     return (
         <form onSubmit={onSubmit}>
-            <label htmlFor="title">Title</label>
+            <label htmlFor="title">Creation date</label>
             <input type="datetime-local" id="creationDate" placeholder="you post's title" value={post.creationDate} onChange={onChange} required/>
             <div className="post-field">
                 <label htmlFor="content">Content</label>
                 <textarea cols={60} rows={5} id="content" value={post.content} onChange={onChange} required></textarea>
             </div>
+
             <button type="submit">Create Post</button>
-            <h2>{post.creationDate}</h2>
-            <span>{post.content}</span>
+            
         </form>
     )
 }

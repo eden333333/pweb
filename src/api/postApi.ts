@@ -18,7 +18,7 @@ export const createPost = async (post:Post, token:string): Promise<Post> => {
 } 
 
 export const updatePost = async (post: Post, token:string): Promise<Post> => {
-    const url = `${serverUrl}:${serverPort}${posturl}`;
+    const url = `${serverUrl}:${serverPort}${posturl}/${post._id}`;
     const response = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -47,9 +47,18 @@ export const getPosts = async (token:string): Promise<Response<Post[]>>  => {
     return postsResponse;
 };
 
-export const getPostsByUser = async (userid: string): Promise<Post[]> => {
+export const getPostsByUser = async (userid: string, token:string): Promise<Post[]> => {
     const url = `${serverUrl}:${serverPort}${posturl}/?userid=${userid}`;
-    const response = await fetch(url);
+    const response = await fetch(url, {
+        headers:{'authorization': `Bearer ${token}`}
+    });
+    return await response.json(); //אולי נרצה לשנות 
+};
+export const getPostById = async (postId: string, token:string): Promise<Post> => {
+    const url = `${serverUrl}:${serverPort}${posturl}/${postId}`;   // http://127.0.0.0:5000/api/posts/475ry3ere
+    const response = await fetch(url, {
+        headers:{'authorization': `Bearer ${token}`}
+    });
     return await response.json(); //אולי נרצה לשנות 
 };
 
@@ -58,3 +67,4 @@ export const deletePost = async (postid: string): Promise<{ message: string }> =
     const response = await fetch(url, { method: 'DELETE' });
     return await response.json();
 };
+

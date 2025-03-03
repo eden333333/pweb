@@ -31,7 +31,7 @@ export const Context = React.createContext<ContextType>({
      useEffect(() => {  
         const token = localStorage.getItem('token');  
         const userString = localStorage.getItem('user');
-        if (token || userString) {   
+        if (token && userString) {   
             setIsLoading(true);
             setAuthData((prev) => {
                 let user:User|undefined =undefined;

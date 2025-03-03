@@ -4,10 +4,11 @@ import { Context } from "../context/Context";
 import CommentView from "./CommentView";
 import Comment from "../models/Comment";
 import {getCommentsByPost} from "../api/commentApi";
+import './CommentList.css'
 
 
-type props = { postId: string };
-const CommentList = ({postId}:props) => {
+type props = { postId: string, change:number };
+const CommentList = ({postId, change}:props) => {
     const ctx = useContext(Context);
     const [comments, setComments] = useState<Comment[]>([]);
 
@@ -20,12 +21,12 @@ const CommentList = ({postId}:props) => {
     // טעינת תגובות מהשרת
     useEffect(() => {
         getComments();
-    }, []);
+    }, [change]);
 
 
     return (
-        <div>
-            <h2>Comments</h2>
+        <div className='comment-list'>
+            <h4>Comments</h4>
             <ul>
                 {comments.map((comment:Comment) => (
                     <CommentView key={comment._id} comment={comment} />

@@ -10,6 +10,7 @@ import Profile from './components/Profile';
 import Home from './components/Home';
 
 import './App.css'
+import EditPost from './components/EditPost';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="/content" element={<ContentView />} />
+        <Route path="/content/posts/:postId" element={<EditPost/>} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>

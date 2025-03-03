@@ -6,7 +6,7 @@ import { Context } from "../context/Context";
 import './AddComment.css'
 
 
-const AddComment = ({ postId }: { postId: string }) => {
+const AddComment = ({ postId, setChange, change }: { postId: string, setChange:(n:number)=>void, change:number }) => {
     const ctx = useContext(Context);
     const [data, setData] = useState<Comment>({ user: ctx.user!._id!, comment: '', createdAt: '', postId: postId });
 
@@ -20,7 +20,8 @@ const AddComment = ({ postId }: { postId: string }) => {
 
         try {
             const newComment = await createComment(data, ctx.token!);
-            console.log(newComment);
+            setChange((change+1)%2)
+            setData({ user: ctx.user!._id!, comment: '', createdAt: '', postId: postId })
         } catch (error) {
             console.error("Failed to create comment:", error);
         }

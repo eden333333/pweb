@@ -1,0 +1,8 @@
+.comment-list > ul{
+    height: 15vh;
+    overflow-y: scroll;
+}
+.comment-list > h4{
+    margin:2px;
+    margin-block: 0;
+}
