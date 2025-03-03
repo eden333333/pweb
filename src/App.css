@@ -1,6 +1,5 @@
 .footer{
   display: flex;
-  padding: auto 2rem;
   justify-content: space-between;
   position: fixed;
   width: 100%;
@@ -8,6 +7,7 @@
   background-color: #333;
   color: white;
   text-align: center;
+  left:0;
 }
 .footer > span{
   display: inline-block;
@@ -17,5 +17,5 @@
   max-width: 1280px;
   margin: 0 auto;
   text-align: center;
-  padding:0'
+  padding:0;
 }

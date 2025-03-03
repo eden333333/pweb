@@ -20,6 +20,8 @@ export const Context = React.createContext<ContextType>({
     const [isLoading , setIsLoading] = React.useState<boolean>(false);
 
      const setAuth = (user:User, token:string) =>{
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('token', token);
         setAuthData({token, user});
      }
 

@@ -16,9 +16,11 @@ import User from "../models/User";
 const ContentView = () => {
     const ctx = useContext(Context);
     const navigate = useNavigate();
+    const [change, setChange] = useState<number>(0);
     const [view, setView] = useState<"all" | "my">("all");
     const [posts, setPosts] = useState<Post[]>([]);
 
+    const signalChange = () => setChange((change + 1)%2);
     const filterPosts = () => {
         return view === "all" ? posts : posts.filter(post => (post.user as User)!._id! === ctx.user!._id!);
     }
@@ -36,7 +38,7 @@ const ContentView = () => {
     }
     useEffect( () => {
         getAllPosts();
-    }, [])
+    }, [change])
     useEffect( () => {
 
     }, [view])
@@ -47,7 +49,7 @@ const ContentView = () => {
             <button onClick={() => setView("my")}>My Posts</button>
             <p>{view}</p>
             <div>
-              <PostList posts={filterPosts()}/>
+              <PostList posts={filterPosts()} signalChange={signalChange}/>
 
             </div>
         </div>

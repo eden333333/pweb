@@ -9,6 +9,7 @@ const Menu = () => {
     const navigate = useNavigate()
     const onLogout = () => {
         ctx.logout();
+        alert('you are now not logged in');
         navigate('/login')
     }
 

@@ -5,21 +5,25 @@ import AddComment from "./AddComment";
 import CommentList from "./CommentList";
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
-
+import {deletePost} from "../api/postApi";
 import './Postview.css'
 
 type PostViewProps = {
-    post: Post
+    post: Post;
+    signalChange:() =>void
 }
 
-const Postview = ({ post }: PostViewProps) => {
+const Postview = ({ post ,signalChange}: PostViewProps) => {
 
     const ctx = useContext(Context);
     const userId = ctx.user!._id;
     const [change, setChange] = useState<number>(0);
 
     const postUser = post.user as User;
-
+    const deletePostHandler = async() => {
+        await deletePost(post._id!, ctx.token!);
+        signalChange();
+    }
     
     return (
         <div className="post-view">
@@ -31,6 +35,7 @@ const Postview = ({ post }: PostViewProps) => {
             </div>
             <hr />
             {userId === postUser._id && <Link to={`/content/posts/${post._id}`}>EDIT</Link>}
+            {userId === postUser._id && <span className="link" onClick={deletePostHandler}> DELETE</span>}
             <AddComment postId={post._id!} setChange={setChange} change={change}/>
             <CommentList postId={post._id!} change={change}/>
         </div>
