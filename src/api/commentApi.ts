@@ -17,7 +17,7 @@ export const createComment = async (comment: Comment, token: string): Promise<Co
 };
 
 export const updateComment = async (comment: Comment, token:string): Promise<Comment> => {
-    const url = `${serverUrl}:${serverPort}${commentUrl}`;
+    const url = `${serverUrl}:${serverPort}${commentUrl}/${comment._id}`;
     const response = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -35,6 +35,14 @@ export const getComments = async (): Promise<Comment[]> => {
     return await response.json();
 };
 
+export const getCommentById = async (commentId:string, token: string): Promise<Comment> => {
+    const url = `${serverUrl}:${serverPort}${commentUrl}/${commentId}`;
+    const response = await fetch(url,{
+        headers:{'authorization': `Bearer ${token}`}
+    });
+    return await response.json();
+};
+
 export const getCommentsByPost = async (postId: string, token: string): Promise<Comment[]> => {
     const url = `${serverUrl}:${serverPort}${commentUrl}/?postId=${postId}`;
     const response = await fetch(url, {
@@ -45,8 +53,13 @@ export const getCommentsByPost = async (postId: string, token: string): Promise<
     return await response.json();
 };
 
-export const deleteComment = async (commentId: string): Promise<{ message: string }> => {
+export const deleteComment = async (commentId: string, token: string): Promise<{ message: string }> => {
     const url = `${serverUrl}:${serverPort}${commentUrl}/${commentId}`;
-    const response = await fetch(url, { method: 'DELETE' });
+    const response = await fetch(url, { 
+        method: 'DELETE',
+        headers:{
+            'authorization': `Bearer ${token}`
+        }
+    });
     return await response.json();
 };

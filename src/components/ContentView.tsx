@@ -45,12 +45,11 @@ const ContentView = () => {
     return (
         <div>
             <h2>Posts View</h2>
-            <button onClick={() => setView("all")}>All Posts</button>
-            <button onClick={() => setView("my")}>My Posts</button>
-            <p>{view}</p>
+            <button style={{backgroundColor: view==="all"?"#99AABB":"initial"}} onClick={() => setView("all")}>All Posts</button>
+            <button style={{backgroundColor: view==="my"?"#99AABB":"initial"}} onClick={() => setView("my")}>My Posts</button>
+
             <div>
               <PostList posts={filterPosts()} signalChange={signalChange}/>
-
             </div>
         </div>
     );

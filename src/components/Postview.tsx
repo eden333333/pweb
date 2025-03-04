@@ -25,6 +25,8 @@ const Postview = ({ post ,signalChange}: PostViewProps) => {
         signalChange();
     }
     
+    const signalCommentChange = () => setChange((change + 1)%2);
+    
     return (
         <div className="post-view">
             <h3>{post.content}</h3>
@@ -37,7 +39,7 @@ const Postview = ({ post ,signalChange}: PostViewProps) => {
             {userId === postUser._id && <Link to={`/content/posts/${post._id}`}>EDIT</Link>}
             {userId === postUser._id && <span className="link" onClick={deletePostHandler}> DELETE</span>}
             <AddComment postId={post._id!} setChange={setChange} change={change}/>
-            <CommentList postId={post._id!} change={change}/>
+            <CommentList postId={post._id!} signalCommentChange={signalCommentChange} change={change}/>
         </div>
     );
 

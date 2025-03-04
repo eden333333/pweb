@@ -7,8 +7,8 @@ import {getCommentsByPost} from "../api/commentApi";
 import './CommentList.css'
 
 
-type props = { postId: string, change:number };
-const CommentList = ({postId, change}:props) => {
+type props = { postId: string, signalCommentChange:() =>void, change:number };
+const CommentList = ({postId, signalCommentChange, change}:props) => {
     const ctx = useContext(Context);
     const [comments, setComments] = useState<Comment[]>([]);
 
@@ -29,7 +29,7 @@ const CommentList = ({postId, change}:props) => {
             <h4>Comments</h4>
             <ul>
                 {comments.map((comment:Comment) => (
-                    <CommentView key={comment._id} comment={comment} />
+                    <CommentView key={comment._id} comment={comment} signalCommentChange={signalCommentChange} />
                 ))}
             </ul>
             

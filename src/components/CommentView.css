@@ -1,0 +1,14 @@
+.comment-view{
+    margin: 2px;
+    padding: 2px;
+    background-color: rgb(201, 194, 166);
+    border-radius: 5px;
+}
+
+.comment-actions>span{
+    cursor: pointer;
+}
+.comment-actions{
+    display: flex;
+    gap:1rem;
+}
