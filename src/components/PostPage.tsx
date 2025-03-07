@@ -5,53 +5,49 @@ import AddComment from "./AddComment";
 import CommentList from "./CommentList";
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
-import { deletePost } from "../api/postApi";
-import './Postview.css'
-import { getCommentsCountByPost } from "../api/commentApi";
+import { deletePost, getPostById } from "../api/postApi";
+import './PostPage.css'
+import { useParams } from "react-router-dom";
 
-type PostViewProps = {
-    post: Post;
-    signalChange: () => void
-}
 
-const Postview = ({ post, signalChange }: PostViewProps) => {
-
+const PostPage = () => {
+    const { postId } = useParams<{ postId: string }>();
     const ctx = useContext(Context);
     const userId = ctx.user!._id;
-    const [commentCount, setCommentsCount] = useState<number>(0);
+    const [change, setChange] = useState<number>(0);
+    const [post, setPost] = useState<Post>();
 
-    const postUser = post.user as User;
+
     const deletePostHandler = async () => {
-        await deletePost(post._id!, ctx.token!);
-        signalChange();
+        await deletePost(post!._id!, ctx.token!);
     }
-
-   const getCommentsCount = async () => {
-        const commentsCount = await getCommentsCountByPost(post._id!, ctx.token);
-        if(commentsCount){
-            setCommentsCount(commentsCount.count);
-        }
+    const getPost = async () => {
+        const post = await getPostById(postId!, ctx.token);
+        setPost(post);
     }
     useEffect(() => {
-        getCommentsCount();
+        getPost();
     }, [])
+    const signalCommentChange = () => setChange((change + 1) % 2);
+    if (!post) return <div>Loading please wait</div>
 
+    const postUser = post.user as User;
     return (
-        <div className="post-view">
+        <div className="post-page">
             <h3>{post.content}</h3>
             <div className="created-by">
                 <label>Created by</label>
                 <span>{postUser.firstName + " " + postUser.lastName}</span>
                 <span>{post.creationDate.split("T").join(" ")}</span>
-
             </div>
             <div className="actions">
-                <Link to={`/content/posts/view/${post._id}`}>{commentCount}  COMMENTS</Link>
                 {userId === postUser._id && <Link to={`/content/posts/${post._id}`}>EDIT</Link>}
                 {userId === postUser._id && <span className="link" onClick={deletePostHandler}> DELETE</span>}
+                <AddComment postId={post._id!} setChange={setChange} change={change} />
             </div>
+                <CommentList postId={post._id!} signalCommentChange={signalCommentChange} change={change} />
         </div>
     );
 
 }
-export default Postview;
+export default PostPage;

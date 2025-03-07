@@ -6,3 +6,7 @@
 .add-comment > *{
     margin: 5px;
 }
+
+.add-comment>button{
+    width:12rem;
+}

@@ -31,7 +31,7 @@ const AddComment = ({ postId, setChange, change }: { postId: string, setChange:(
     return (
         <form onSubmit={onSubmit} className='add-comment'>
             <label htmlFor="comment">Comment</label>
-            <textarea id="comment" placeholder="Your comment" value={data.comment} onChange={onChange} required />
+            <textarea id="comment" cols={30} placeholder="Your comment" value={data.comment} onChange={onChange} required />
 
             <button type="submit">Add Comment</button>
         </form>

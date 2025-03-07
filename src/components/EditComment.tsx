@@ -44,7 +44,7 @@ const EditComment = ({signalCommentChange, comment:editComment, setIsEdit }: { s
             <label htmlFor="comment">Comment</label>
             <textarea id="comment" placeholder="Your comment" value={comment.comment} onChange={onChange} required />
 
-            <button type="submit">Add Comment</button>
+            <button type="submit">update Comment</button>
         </form>
     );
 };

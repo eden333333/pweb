@@ -53,6 +53,16 @@ export const getCommentsByPost = async (postId: string, token: string): Promise<
     return await response.json();
 };
 
+export const getCommentsCountByPost = async (postId: string, token: string): Promise<{count:number}> => {
+    const url = `${serverUrl}:${serverPort}${commentUrl}/?postId=${postId}&count=true`;
+    const response = await fetch(url, {
+        headers:{
+            'authorization': `Bearer ${token}`
+        }
+    });
+    return await response.json();
+};
+
 export const deleteComment = async (commentId: string, token: string): Promise<{ message: string }> => {
     const url = `${serverUrl}:${serverPort}${commentUrl}/${commentId}`;
     const response = await fetch(url, { 

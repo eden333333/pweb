@@ -1,9 +1,9 @@
-.post-view {
+.post-page {
     margin: 5px;
     padding: 5px;
     box-shadow: 1px 1px 2px 2x x#AAA;
-    background-color:  #968acc
-    ;
+    background-color: bisque;
+    color: #000;
 }
 
 .created-by {
@@ -18,8 +18,13 @@
 .link {
     color: #646cff;
 }
-.post-view > .actions{
+.actions>span{
+    cursor: pointer;
+}
+.post-page > .actions{
     display:flex;
+    gap:0.5rem;
     justify-content: space-around;
+    align-items: center;
     width: 30%;
 }
