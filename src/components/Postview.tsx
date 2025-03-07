@@ -5,7 +5,7 @@ import AddComment from "./AddComment";
 import CommentList from "./CommentList";
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
-import { deletePost } from "../api/postApi";
+import { addLike, deletePost, removeLike } from "../api/postApi";
 import './Postview.css'
 import { getCommentsCountByPost } from "../api/commentApi";
 
@@ -32,10 +32,24 @@ const Postview = ({ post, signalChange }: PostViewProps) => {
             setCommentsCount(commentsCount.count);
         }
     }
+    const togglelike = async () => {
+        if(post.likes.includes(userId!)){
+            await removeLike(post._id!, ctx.token!);
+        }else{
+            await addLike(post._id!, ctx.token!);
+
+
+        }
+        signalChange();
+
+    } 
+
+
+
     useEffect(() => {
         getCommentsCount();
     }, [])
-
+    if(!userId)return <div>loading, please wait</div>
     return (
         <div className="post-view">
             <h3>{post.content}</h3>
@@ -49,6 +63,10 @@ const Postview = ({ post, signalChange }: PostViewProps) => {
                 <Link to={`/content/posts/view/${post._id}`}>{commentCount}  COMMENTS</Link>
                 {userId === postUser._id && <Link to={`/content/posts/${post._id}`}>EDIT</Link>}
                 {userId === postUser._id && <span className="link" onClick={deletePostHandler}> DELETE</span>}
+            <span onClick={togglelike}>
+               {post.likes.includes(userId)?<span>&#9829;</span> :<span>&#9829;</span>} {post.likes.length} 
+
+            </span>
             </div>
         </div>
     );

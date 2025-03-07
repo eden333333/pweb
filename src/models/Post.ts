@@ -5,5 +5,6 @@ import User from "./User";
     content: string;
     creationDate: string;
     user?: string|User
+    likes: string[];
 }
 export default Post;    

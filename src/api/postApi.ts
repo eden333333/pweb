@@ -61,7 +61,22 @@ export const getPostById = async (postId: string, token: string): Promise<Post> 
     });
     return await response.json(); //אולי נרצה לשנות 
 };
-
+export const addLike = async (postId: string, token: string): Promise<Post> => {
+    const url = `${serverUrl}:${serverPort}${posturl}/${postId}/like`;   // http://127.0.0.0:5000/api/posts/475ry3ere
+    const response = await fetch(url, {
+        headers: { 'authorization': `Bearer ${token}` },
+        method: 'POST'
+    });
+    return await response.json(); //אולי נרצה לשנות 
+};
+export const removeLike = async (postId: string, token: string): Promise<Post> => {
+    const url = `${serverUrl}:${serverPort}${posturl}/${postId}/like`;   // http://127.0.0.0:5000/api/posts/475ry3ere
+    const response = await fetch(url, {
+        headers: { 'authorization': `Bearer ${token}` },
+        method: 'DELETE'
+    });
+    return await response.json(); //אולי נרצה לשנות 
+};
 export const deletePost = async (postid: string, token: string): Promise<{ message: string }> => {
     const url = `${serverUrl}:${serverPort}${posturl}/${postid}`;
     const response = await fetch(url, {
