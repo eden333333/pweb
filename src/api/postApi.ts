@@ -1,31 +1,57 @@
 import Post from "../models/Post";
 import Response from "../models/Response";
+import User from "../models/User";
 import { serverPort, serverUrl } from "./serverApi";
 
 const posturl = '/api/posts';
 
+/*
+  _id?: string;
+    content: string;
+    creationDate: string;
+    image?:File|string;
+    user?: string|User
+    likes: string[];
+*/
 export const createPost = async (post: Post, token: string): Promise<Post> => {
+    const formData = new FormData();
+    formData.append('content', post.content);
+    formData.append('creationDate', post.creationDate);
+    formData.append('user', post.user as string);
+    if(post.image){
+        console.log('added')
+        formData.append('image', post.image as File);
+    }
     const url = `${serverUrl}:${serverPort}${posturl}`;
     const response = await fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
             "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify(post)
+        body: formData
     })
     return await response.json(); // promise+[post...]
 }
 
 export const updatePost = async (post: Post, token: string): Promise<Post> => {
+    const formData = new FormData();
+    const user = post.user as User;
+    
+    formData.append('content', post.content);
+    formData.append('creationDate', post.creationDate);
+    formData.append('user', user!._id!);
+    if(post.image){
+        console.log('updated')
+        formData.append('image', post.image as File);
+    }
+    
     const url = `${serverUrl}:${serverPort}${posturl}/${post._id}`;
     const response = await fetch(url, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json',
             'authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(post)
+        body: formData
     });
     return await response.json();
 };

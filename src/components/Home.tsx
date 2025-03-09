@@ -4,10 +4,10 @@ const Home = () => {
 
     return(
         <div>
-            <h1>App name</h1>
-            <h2>Wlecome to or post site</h2>
-            <p>This site will...</p>
-            <p>Register to enjoy your posts </p>
+            <h1>Tripzy</h1>
+            <h2>Welcome to our travel website  </h2>
+            <p>This site is used to upload travel posts from all over the world.</p>
+            <p>Register to enjoy your posts and others </p>
             <p>Your posts are protected...</p>
         </div>
     )

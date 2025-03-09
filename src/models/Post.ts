@@ -4,6 +4,7 @@ import User from "./User";
     _id?: string;
     content: string;
     creationDate: string;
+    image?:File|string;
     user?: string|User
     likes: string[];
 }

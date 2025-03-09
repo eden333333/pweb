@@ -39,6 +39,7 @@ const PostPage = () => {
                 <label>Created by</label>
                 <span>{postUser.firstName + " " + postUser.lastName}</span>
                 <span>{post.creationDate.split("T").join(" ")}</span>
+                {post.image && <img src={post.image as string} alt={post.content} />}
             </div>
             <div className="actions">
                 {userId === postUser._id && <Link to={`/content/posts/${post._id}`}>EDIT</Link>}

@@ -57,7 +57,7 @@ const Postview = ({ post, signalChange }: PostViewProps) => {
                 <label>Created by</label>
                 <span>{postUser.firstName + " " + postUser.lastName}</span>
                 <span>{post.creationDate.split("T").join(" ")}</span>
-
+                {post.image && <img src={post.image as string} alt={post.content} />}
             </div>
             <div className="actions">
                 <Link to={`/content/posts/view/${post._id}`}>{commentCount}  COMMENTS</Link>
@@ -65,7 +65,6 @@ const Postview = ({ post, signalChange }: PostViewProps) => {
                 {userId === postUser._id && <span className="link" onClick={deletePostHandler}> DELETE</span>}
             <span onClick={togglelike}>
                {post.likes.includes(userId)?<span>&#9829;</span> :<span>&#9829;</span>} {post.likes.length} 
-
             </span>
             </div>
         </div>

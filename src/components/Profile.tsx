@@ -1,25 +1,25 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState, useContext } from "react";
+import { Context } from "../context/Context";
 import User from "../models/User";
+import './Profile.css';
 
 
-
+const defaultUser = {
+    firstName: '',
+    lastName: '',
+    birthDate: '',
+    email: '',
+    password: '',
+}
 const Profile = () => {
-    const [data, setData] = useState<User>({
-        firstName: '',
-        lastName: '',
-        birthDate: '',
-        email: '',
-        password: '',
-    });
+    const ctx = useContext(Context);
+    const [data, setData] = useState<User>(ctx.user!);
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
     // טעינת הנתונים של המשתמש מהשרת
     useEffect(() => {
-        fetch('http://localhost:550/profile')
-            .then((response) => response.json())
-            .then((userData) => setData(userData))
-            .catch((error) => console.error("Error loading profile:", error));
+      
     }, []);
 
     // עדכון הנתונים במצב עריכה
@@ -46,7 +46,7 @@ const Profile = () => {
     };
 
     return (
-        <div>
+        <div className='profile'>
             <h1>Profile</h1>
 
             {!isEditing ? (
