@@ -19,7 +19,7 @@ const CreatePost = () => {
         setPost({ ...post, [id]: value })      // ...data == {email:"...", pssword:"...", email="123"}
 
     }
-    const onInputFileCHange = () => (event: ChangeEvent<HTMLInputElement>) => {
+    const onInputFileCHange =  (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files![0];
         console.log('updated image');
         

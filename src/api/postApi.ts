@@ -40,9 +40,13 @@ export const updatePost = async (post: Post, token: string): Promise<Post> => {
     formData.append('content', post.content);
     formData.append('creationDate', post.creationDate);
     formData.append('user', user!._id!);
-    if(post.image){
+    if(post.image !== undefined){
         console.log('updated')
-        formData.append('image', post.image as File);
+        if(post.image instanceof File){
+            formData.append('image', post.image as File);
+        }else{
+            formData.append('image', post.image as string);
+        }
     }
     
     const url = `${serverUrl}:${serverPort}${posturl}/${post._id}`;

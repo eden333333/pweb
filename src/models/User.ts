@@ -6,6 +6,7 @@ interface User {
     email: string,
     password: string,
     birthDate: string;
+    image?:File|string;
 }
 
 export default User;

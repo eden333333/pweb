@@ -28,3 +28,8 @@
     align-items: center;
     width: 30%;
 }
+.post-page img{
+    width:50vw;
+    max-height: 45vh;
+    border-radius: 5px;
+}

@@ -5,6 +5,7 @@ import {getPosts} from '../api/postApi';
 import { Context } from "../context/Context";   
 import { useNavigate } from "react-router-dom";
 import User from "../models/User";
+import './ContentView.css'
 
 /*
     firstName: string,
@@ -27,24 +28,24 @@ const ContentView = () => {
 
     const getAllPosts = async () => {
         if(!ctx.token){
-            navigate('/')
+            return;
         }
         const response = await getPosts(ctx.token!);
         if(response.ok){
             setPosts(response.data!)
-        }else{
-            navigate('/login')
         }
+        // }else{
+        //     navigate('/login')
+        // }
     }
     useEffect( () => {
         getAllPosts();
-    }, [change])
+    }, [change, ctx.token])
     useEffect( () => {
 
     }, [view])
     return (
-        <div>
-            <h2>Posts View</h2>
+        <div className='content-view'>
             <button style={{backgroundColor: view==="all"?"#99AABB":"initial"}} onClick={() => setView("all")}>All Posts</button>
             <button style={{backgroundColor: view==="my"?"#99AABB":"initial"}} onClick={() => setView("my")}>My Posts</button>
 

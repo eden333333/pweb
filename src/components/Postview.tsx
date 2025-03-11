@@ -8,6 +8,7 @@ import { Context } from "../context/Context";
 import { addLike, deletePost, removeLike } from "../api/postApi";
 import './Postview.css'
 import { getCommentsCountByPost } from "../api/commentApi";
+import { imageUrl } from "../api/serverApi";
 
 type PostViewProps = {
     post: Post;
@@ -57,8 +58,8 @@ const Postview = ({ post, signalChange }: PostViewProps) => {
                 <label>Created by</label>
                 <span>{postUser.firstName + " " + postUser.lastName}</span>
                 <span>{post.creationDate.split("T").join(" ")}</span>
-                {post.image && <img src={post.image as string} alt={post.content} />}
             </div>
+                {post.image && <img src={imageUrl+post.image as string} alt={post.content} />}
             <div className="actions">
                 <Link to={`/content/posts/view/${post._id}`}>{commentCount}  COMMENTS</Link>
                 {userId === postUser._id && <Link to={`/content/posts/${post._id}`}>EDIT</Link>}

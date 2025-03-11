@@ -5,14 +5,25 @@ import { serverPort, serverUrl } from "./serverApi";
 // api/users
 const userUrl = '/api/users';
 
-export const updateUser = async (user: User): Promise<User> => {
-    const url = `${serverUrl}:${serverPort}${userUrl}`;
+export const updateUser = async (user: User, token:string): Promise<User> => {
+    const formData = new FormData();
+    formData.append('firstName', user.firstName);
+    formData.append('lastName', user.lastName);
+    formData.append('birthDate', user.birthDate);
+    formData.append('email', user.email);
+    formData.append('password', user.password);
+    if(user.image){
+        formData.append('image', user.image);
+    }
+    console.log(user);
+    
+    const url = `${serverUrl}:${serverPort}${userUrl}/${user._id}`;
     const response = await fetch(url, {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json"
+            'authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(user)
+        body: formData
     });
     return await response.json();
 };

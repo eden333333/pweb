@@ -49,10 +49,11 @@ export const Context = React.createContext<ContextType>({
         
 
      }, [])
+     if(isLoading)<div>Loading please wait</div>
     return (
         <Context.Provider value={{user: authData.user, setAuth, token:authData.token, logout}}>
 
-            {isLoading ?<div>Loading please wait</div> : children}
+            {children}
         </Context.Provider>
     )
 } // המטרה ליצור קונטקסט עבור האפליקציה

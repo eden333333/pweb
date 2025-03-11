@@ -1,0 +1,14 @@
+.edit-post{
+    color: #000;
+}
+.edit-post img{
+    border-radius: 5px;
+    width:50vw;
+    max-height: 40vw;
+}
+
+.edit-post .post-field{
+    display: flex;
+    align-items: start;
+    gap: 0.5rem;
+}

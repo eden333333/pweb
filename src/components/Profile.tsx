@@ -1,6 +1,8 @@
 import { ChangeEvent, FormEvent, useEffect, useState, useContext } from "react";
 import { Context } from "../context/Context";
 import User from "../models/User";
+import { updateUser } from "../api/userApi";
+import { imageUrl } from "../api/serverApi";
 import './Profile.css';
 
 
@@ -19,8 +21,15 @@ const Profile = () => {
 
     // טעינת הנתונים של המשתמש מהשרת
     useEffect(() => {
-      
-    }, []);
+        if (ctx.user)
+            setData(ctx.user);
+    }, [ctx.user]);
+
+    const onInputFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+
+        const file = event.target.files![0];
+        setData({ ...data, image: file });
+    }
 
     // עדכון הנתונים במצב עריכה
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -29,21 +38,14 @@ const Profile = () => {
     };
 
     // שליחת עדכון לשרת
-    const onSubmit = (event: FormEvent) => {
+    const onSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        
-        fetch('http://localhost:550/profile/update', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-        })
-        .then((response) => response.json())
-        .then((updatedData) => {
-            setData(updatedData);
-            setIsEditing(false); 
-        })
-        .catch((error) => console.error("Error updating profile:", error));
+        const updatedUser =await updateUser(data, ctx.token!);
+        ctx.setAuth(data, ctx.token);
+        setData(updatedUser);
+        setIsEditing(false);
     };
+console.log(data);
 
     return (
         <div className='profile'>
@@ -55,6 +57,7 @@ const Profile = () => {
                     <p><strong>Last Name:</strong> {data.lastName}</p>
                     <p><strong>Birth Date:</strong> {data.birthDate}</p>
                     <p><strong>Email:</strong> {data.email}</p>
+                    {data.image && (typeof (data.image) == 'string') && <img src={imageUrl + data.image as string} alt="your profile image" />}
                     <button onClick={() => setIsEditing(true)}>Edit</button>
                 </div>
             ) : (
@@ -70,6 +73,9 @@ const Profile = () => {
 
                     <label htmlFor="email">Email</label>
                     <input type="email" id="email" value={data.email} onChange={onChange} required />
+
+                    <label htmlFor="imageFile">Picture</label>
+                    <input type="file" id="imageFile" name="imageFile" onChange={onInputFileChange} />
 
                     <button type="submit">Save</button>
                     <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
