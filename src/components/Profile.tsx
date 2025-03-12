@@ -40,12 +40,13 @@ const Profile = () => {
     // שליחת עדכון לשרת
     const onSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        const updatedUser =await updateUser(data, ctx.token!);
-        ctx.setAuth(data, ctx.token);
+        const updatedUser = await updateUser(data, ctx.token!);
+        ctx.setAuth(updatedUser, ctx.token);
         setData(updatedUser);
         setIsEditing(false);
     };
-console.log(data);
+    console.log(data);
+    
 
     return (
         <div className='profile'>
@@ -53,12 +54,22 @@ console.log(data);
 
             {!isEditing ? (
                 <div>
-                    <p><strong>First Name:</strong> {data.firstName}</p>
-                    <p><strong>Last Name:</strong> {data.lastName}</p>
-                    <p><strong>Birth Date:</strong> {data.birthDate}</p>
-                    <p><strong>Email:</strong> {data.email}</p>
-                    {data.image && (typeof (data.image) == 'string') && <img src={imageUrl + data.image as string} alt="your profile image" />}
-                    <button onClick={() => setIsEditing(true)}>Edit</button>
+                    <div className="profile-view">
+                        <div className="profile-data">
+                            <p><strong>First Name:</strong> {data.firstName}</p>
+                            <p><strong>Last Name:</strong> {data.lastName}</p>
+                            <p><strong>Birth Date:</strong> {data.birthDate}</p>
+                            <p><strong>Email:</strong> {data.email}</p>
+                        </div>
+                        <div className="profile-image">
+                            {data.image && (typeof (data.image) == 'string') && <img src={imageUrl + data.image as string} alt="your profile image" />}
+                            <br/>
+                            <button onClick={() => setIsEditing(true)}>Edit</button>
+                        </div>
+
+                    </div>
+
+                    
                 </div>
             ) : (
                 <form onSubmit={onSubmit}>

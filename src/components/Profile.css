@@ -1,3 +1,26 @@
 .profile{
     color: #000;
 }
+
+.profile-view{
+    display: flex;
+    justify-content: space-around;
+}
+
+.profile-view img{
+    width:50vw;
+    max-height: 55vh;
+    border-radius: 5px;
+}
+.profile-data{
+    display: flex ;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-weight: bold;
+    justify-content: center;
+}
+.profile-image{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}

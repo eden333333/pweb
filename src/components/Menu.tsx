@@ -40,6 +40,7 @@ const Menu = () => {
                 <li><NavLink to="/content">Content</NavLink></li>
                 <li><NavLink to="/create-post">Create Post</NavLink></li>
             </ol>
+            <label>Welcome {ctx.user? `${ctx.user.firstName} ${ctx.user.lastName}` : 'guest'}</label>
         </div>
     )
 }

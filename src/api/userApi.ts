@@ -11,7 +11,6 @@ export const updateUser = async (user: User, token:string): Promise<User> => {
     formData.append('lastName', user.lastName);
     formData.append('birthDate', user.birthDate);
     formData.append('email', user.email);
-    formData.append('password', user.password);
     if(user.image){
         formData.append('image', user.image);
     }
