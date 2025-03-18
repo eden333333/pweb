@@ -6,6 +6,7 @@ import { Context } from "../context/Context";
 import { useNavigate } from "react-router-dom";
 import User from "../models/User";
 import './ContentView.css'
+import Commercial from "./Commercial";
 
 /*
     firstName: string,
@@ -33,10 +34,10 @@ const ContentView = () => {
         const response = await getPosts(ctx.token!);
         if(response.ok){
             setPosts(response.data!)
+        }else if(response.login){
+            navigate('/login');
         }
-        // }else{
-        //     navigate('/login')
-        // }
+        
     }
     useEffect( () => {
         getAllPosts();
@@ -46,6 +47,7 @@ const ContentView = () => {
     }, [view])
     return (
         <div className='content-view'>
+            <Commercial/>
             <button style={{backgroundColor: view==="all"?"#99AABB":"initial"}} onClick={() => setView("all")}>All Posts</button>
             <button style={{backgroundColor: view==="my"?"#99AABB":"initial"}} onClick={() => setView("my")}>My Posts</button>
 

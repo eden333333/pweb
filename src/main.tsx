@@ -6,11 +6,9 @@ import App from './App.tsx'
 import ContextProvider from './context/Context.tsx'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
     <BrowserRouter>
     <ContextProvider>
       <App />
       </ContextProvider>
     </BrowserRouter>
-  </StrictMode>,
 )

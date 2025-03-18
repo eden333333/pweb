@@ -1,0 +1,15 @@
+.commercial-container{
+    margin:5px;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow:2px 2px 3px 3px #777;
+    background-color: #3299c9;
+}
+
+.commercial-container>h3{
+    background-color: #f53636c9;
+    color: #FFF;
+}
+.commercial-container>p{
+    color: #000;
+}

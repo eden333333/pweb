@@ -71,6 +71,9 @@ export const getPosts = async (token: string): Promise<Response<Post[]>> => {
     });
     if (!response.ok) {
         postsResponse.ok = false;
+        if(response.status === 401){
+            postsResponse.login = true;
+        }
         return postsResponse;
     }
     postsResponse.data = await response.json();
