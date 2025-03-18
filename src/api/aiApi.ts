@@ -31,7 +31,7 @@ export const getGemeniCommercial = async() => {
             },
             body: JSON.stringify({
                 contents: [{parts:
-                    [{"text": "give me a dummy text vacation commercial with slogen:string, short description: string as a json"}]
+                    [{"text": "Create a JSON object representing a dummy vacation commercial. The JSON should have two fields: 'slogan' and 'description'. The 'slogan' field should contain a catchy phrase, and the 'description' field should contain a short paragraph describing the vacation."}]
                 }]
 
             })
