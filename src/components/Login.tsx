@@ -28,8 +28,8 @@ const Login = () => {
         console.log(data);
         const loginResponse = await loginUser(data.email, data.password);
         if(loginResponse.ok){
-            const {user, token} = loginResponse.data!;
-            ctx.setAuth(user, token);
+            const {user, token, refreshToken} = loginResponse.data!;
+            ctx.setAuth(user, token, refreshToken);
             navigate('/content');
         }else{
             alert(loginResponse.message);

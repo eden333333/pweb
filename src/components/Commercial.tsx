@@ -3,23 +3,29 @@ import {getGemeniCommercial} from "../api/aiApi";
 import './Commercial.css'
 
 type CommercialT={
-    short_description: string;
-    slogen: string;
+    description: string;
+    slogan: string;
 }
 const Commercial = () => {
-    const INTERVAL = 1000 * 60 * 60
-    const [commercial, setCommercial] = useState<CommercialT[]>([{slogen:"", short_description:""}]);
+    const INTERVAL = 1000 * 60 * 5;
+    const [commercial, setCommercial] = useState<CommercialT>({slogan:"", description:""});
     const[loading, setLoading] = useState(false);
 
     const loadCommercial = async () => {
         setLoading(true);
         const c = await getGemeniCommercial()
-        console.log(commercial);
+        console.log(c);
         
         if(c == ""){
-            setCommercial([{slogen:"Error loading commercial", short_description:""}]);
+            setCommercial({slogan:"Error loading commercial", description:""});
         }else{
-            setCommercial([c]);
+            // gemini returns sporadic data structure
+            // if it is an array,
+            if(c[0]){  
+                setCommercial(c[0]);
+            }else{
+                setCommercial(c);
+            }
         }
         setLoading(false);
     }
@@ -33,8 +39,8 @@ const Commercial = () => {
     if(loading)return (<div>Loading next commercial</div>)
     return(
         <div className="commercial-container">
-            <h3>{commercial[0].slogen}</h3>
-            <p>{commercial[0].short_description}</p>
+            <h3>{commercial.slogan}</h3>
+            <p>{commercial.description}</p>
         </div>
     )
 }
