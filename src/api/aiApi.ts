@@ -38,9 +38,12 @@ export const getGemeniCommercial = async() => {
         });
         const data = await resp.json();
         const rawData = data.candidates[0].content.parts[0].text;  
-        console.log(rawData.substring(7  , rawData.length-5));
+        const start = rawData.indexOf("{");
+        const end = rawData.lastIndexOf("}");
+        const jsonData = rawData.substring(start, end+1);
+        console.log(jsonData);
         
-        const commercials = JSON.parse(rawData.substring(7  , rawData.length-5));
+        const commercials = JSON.parse(jsonData);
         console.log( commercials);
         
         return commercials
