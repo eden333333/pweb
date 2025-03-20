@@ -1,4 +1,8 @@
 .post-field{
     display: flex;
     align-items: start;
+    
+}
+.createpost-container button{
+    color:#EEF5FF;
 }

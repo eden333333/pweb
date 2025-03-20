@@ -36,7 +36,7 @@ const CreatePost = () => {
     };
 
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className='createpost-container'>
             <label htmlFor="title">Creation date</label>
             <input type="datetime-local" id="creationDate" placeholder="you post's title" value={post.creationDate} onChange={onChange} required />
             <div className="post-field">

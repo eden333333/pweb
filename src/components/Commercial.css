@@ -4,10 +4,13 @@
     border-radius: 5px;
     box-shadow:2px 2px 3px 3px #777;
     background-color: #98deff;
+    max-height: 10vh;
+    overflow-y:auto;
+    overflow-x:hidden;
 }
 
 .commercial-container>h3{
-    /*background-color: #113344;*/
+    margin-top:0.2rem;
     color: #112233;
 }
 .commercial-container>p{

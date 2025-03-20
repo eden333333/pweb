@@ -1,15 +1,14 @@
 .menu-container{
     padding: 0.5rem;
     margin: 0.5rem;
+    margin-top:5px;
+    display: flex;
 }
 .menu-container > ol{
     list-style-type: none;
     display: flex;
     gap:5rem;
 }
-
-.menu-container > ol >li{}
-
 
 a,li {
     font-weight: 500;
@@ -22,4 +21,8 @@ a,li {
   }
   .menu-container > label{
     color:#223344;
+  }
+
+  .welcome{
+    color:#176B87;
   }
