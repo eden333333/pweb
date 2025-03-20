@@ -5,6 +5,7 @@ import Post from '../models/Post';
 import { updatePost, getPostById } from '../api/postApi';
 import './EditPost.css'
 import { imageUrl } from '../api/serverApi';
+import { useApi } from '../hooks/useApi';
 
 
 const EditPost = () => {
@@ -16,7 +17,9 @@ const EditPost = () => {
 
     const [removeImage, setRemoveImage] = useState<boolean>(false);
     const [post, setPost] = useState<Post>({ creationDate: new Date().toISOString().split(".")[0], content: '', user: ctx.user?._id, likes: [] });
-
+    const {callServer, loading} = useApi<string, Post>();
+    const {callServer: callServerUpdate,} = useApi<Post, Post>();
+    
     const onRemoveImageChange = (event: ChangeEvent<HTMLInputElement>) => {
         setRemoveImage(event.target.checked);
         if (event.target.checked == true) {
@@ -28,17 +31,17 @@ const EditPost = () => {
         const id = event.target.id;
         const value = event.target.value;
         setPost({ ...post, [id]: value })
-
     }
     const onInputFileCHange = (event: ChangeEvent<HTMLInputElement>) => {
-
         const file = event.target.files![0];
         setPost({ ...post, image: file });
     }
 
     const getPost = async () => {
-        const post = await getPostById(postId!, ctx.token!);
-        if (post) {
+        
+        const response = await callServer({api:getPostById, modelData:postId!}); // getPostById(postId!, ctx.token!);
+        const post = response.data;
+        if (response.status == 200 && post) {
             setPost(post);
         } else {
             alert('Post not found');
@@ -48,7 +51,8 @@ const EditPost = () => {
     }
     const onSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        const createdPost = await updatePost(post, ctx.token!);
+        
+        await callServerUpdate({api: updatePost, modelData:post}); //updatePost(post, ctx.token!);
         navigate('/content')
     };
     const formatDate = (date: string) => {

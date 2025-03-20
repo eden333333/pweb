@@ -6,6 +6,7 @@ import Comment from '../models/Comment'; // ייבוא מודל של תגובה
 import User from '../models/User';
 import './CommentView.css'
 import EditComment from './EditComment';
+import { useApi } from '../hooks/useApi';
 
 
 const CommentView = ({ comment, signalCommentChange }: { comment: Comment, signalCommentChange: () => void }) => {
@@ -14,11 +15,12 @@ const CommentView = ({ comment, signalCommentChange }: { comment: Comment, signa
     const userId = ctx.user!._id;
 
     const [isEdit, setIsEdit] = useState<boolean>(false);
+    const {callServer, loading} = useApi<string, void>()
 
     const user = comment.user as User;
 
     const deleteCommentHandler = async () => {
-        await deleteComment(comment._id!, ctx.token!);
+        await callServer({api: deleteComment, modelData: comment._id!});
         signalCommentChange();
     }
     return (

@@ -6,10 +6,12 @@ type ContextType = {
     token: string
     refreshToken: string
     setAuth: (user:User,token:string,refreshToken:string) =>void,
+    setToken: (token:string) => void,
     logout: () =>void
 }
 export const Context = React.createContext<ContextType>({
     setAuth: (user:User,token:string, refreshToken:string) =>{},
+    setToken:(token:string)=>{},
     token:'',
     refreshToken:'',
     user: {birthDate:'', firstName: '', lastName: '', email: '', password: ''},
@@ -26,6 +28,9 @@ export const Context = React.createContext<ContextType>({
         localStorage.setItem('token', token);
         localStorage.setItem('refreshToken', token);
         setAuthData({token, refreshToken, user});
+     }
+     const setToken = (token: string) =>{
+        setAuthData({...authData, token});
      }
 
      const logout = () => {
@@ -56,7 +61,7 @@ export const Context = React.createContext<ContextType>({
      }, [])
      if(isLoading)<div>Loading please wait</div>
     return (
-        <Context.Provider value={{user: authData.user, setAuth, token:authData.token, refreshToken:authData.refreshToken, logout}}>
+        <Context.Provider value={{user: authData.user, setAuth, token:authData.token, refreshToken:authData.refreshToken, setToken, logout}}>
 
             {children}
         </Context.Provider>

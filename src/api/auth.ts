@@ -1,4 +1,4 @@
-import { log } from 'console';
+
 import Response, {LoginResponse} from '../models/Response';
 import User from "../models/User";
 import { serverPort, serverUrl } from "./serverApi";
@@ -20,7 +20,7 @@ export const registerUser = (user:User) => {
 } 
 
 export const loginUser = async (email:string, password:string) : Promise<Response<LoginResponse>> =>  {
-    const loginResponse: Response<LoginResponse> = {ok:true, message: '', data: undefined};
+    const loginResponse: Response<LoginResponse> = {status: 200, ok:true, message: '', data: undefined};
     const url = `${serverUrl}:${serverPort}${authurl}/login`;
     const response = await fetch(url, {
         method: 'POST',
@@ -40,9 +40,9 @@ export const loginUser = async (email:string, password:string) : Promise<Respons
     
 } 
 
-export const refreshToken = async (refreshToken:string) : Promise<Response<{refreshToken:string}>> => {
+export const refreshTokenApi = async (refreshToken:string) : Promise<string> => {
     const url = `${serverUrl}:${serverPort}${authurl}/refresh`;
-    const refreshResponse: Response<{refreshToken:string}> = {ok:true, message: '', data: {refreshToken:''}};
+    //const refreshResponse: Response<{status: 200, refreshToken:string}> = {status: 200,ok:true, message: '', data: {refreshToken:''}};
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -52,6 +52,6 @@ export const refreshToken = async (refreshToken:string) : Promise<Response<{refr
     })
     const {token} = await response.json();
     console.log("received token: ", token);
-    refreshResponse.data!.refreshToken = token;
-    return refreshResponse;
+    
+    return token;
 }

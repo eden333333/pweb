@@ -4,6 +4,7 @@ import User from "../models/User";
 import { updateUser } from "../api/userApi";
 import { imageUrl } from "../api/serverApi";
 import './Profile.css';
+import { useApi } from "../hooks/useApi";
 
 
 const defaultUser = {
@@ -18,6 +19,7 @@ const Profile = () => {
     const [data, setData] = useState<User>(ctx.user!);
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
+    const {callServer, loading} = useApi<User, User>()
 
     // טעינת הנתונים של המשתמש מהשרת
     useEffect(() => {
@@ -40,9 +42,13 @@ const Profile = () => {
     // שליחת עדכון לשרת
     const onSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        const updatedUser = await updateUser(data, ctx.token!);
-        ctx.setAuth(updatedUser, ctx.token);
-        setData(updatedUser);
+        const response = callServer({api:updateUser, modelData:data})
+        const updatedUser = (await response).data;
+        if(updatedUser){
+
+            ctx.setAuth(updatedUser, ctx.token, ctx.refreshToken);
+            setData(updatedUser);
+        }
         setIsEditing(false);
     };
     console.log(data);

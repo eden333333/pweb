@@ -5,6 +5,7 @@ import { createPost } from "../api/postApi";
 import { Context } from "../context/Context";
 import { useNavigate } from "react-router-dom";
 import './CreatePost.css'
+import { useApi } from "../hooks/useApi";
 
 
 const CreatePost = () => {
@@ -13,6 +14,9 @@ const CreatePost = () => {
 
     // if ! userId: ctx.user, navigate to homepage
     const [post, setPost] = useState<Post>({ creationDate: new Date().toISOString().split(".")[0], content: '', user: ctx.user?._id, likes: [] });
+
+    const {callServer, loading} = useApi<Post, Post>();
+    
     const onChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
         const id = event.target.id;
         const value = event.target.value;
@@ -27,7 +31,7 @@ const CreatePost = () => {
     }
     const onSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        const createdPost = await createPost(post, ctx.token!);
+        await callServer({api:createPost, modelData:post}); //  createPost(post, ctx.token!);
         navigate('/content');
     };
 

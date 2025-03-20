@@ -1,5 +1,5 @@
 import Post from "../models/Post";
-import Response from "../models/Response";
+import Response, { RawPromise } from "../models/Response";
 import User from "../models/User";
 import { serverPort, serverUrl } from "./serverApi";
 
@@ -13,7 +13,7 @@ const posturl = '/api/posts';
     user?: string|User
     likes: string[];
 */
-export const createPost = async (post: Post, token: string): Promise<Post> => {
+export const createPost = async (post: Post, token: string): RawPromise => {
     const formData = new FormData();
     formData.append('content', post.content);
     formData.append('creationDate', post.creationDate);
@@ -23,17 +23,17 @@ export const createPost = async (post: Post, token: string): Promise<Post> => {
         formData.append('image', post.image as File);
     }
     const url = `${serverUrl}:${serverPort}${posturl}`;
-    const response = await fetch(url, {
+    return fetch(url, {
         method: 'POST',
         headers: {
             "Authorization": `Bearer ${token}`
         },
         body: formData
     })
-    return await response.json(); // promise+[post...]
+    //return await response.json(); // promise+[post...]
 }
 
-export const updatePost = async (post: Post, token: string): Promise<Post> => {
+export const updatePost = async (post: Post, token: string): RawPromise=> {
     const formData = new FormData();
     const user = post.user as User;
     
@@ -50,73 +50,64 @@ export const updatePost = async (post: Post, token: string): Promise<Post> => {
     }
     
     const url = `${serverUrl}:${serverPort}${posturl}/${post._id}`;
-    const response = await fetch(url, {
+    return fetch(url, {
         method: 'PUT',
         headers: {
             'authorization': `Bearer ${token}`
         },
         body: formData
     });
-    return await response.json();
+    //return await response.json();
 };
 
 // Promise<Response<LoginResponse>> 
-export const getPosts = async (token: string): Promise<Response<Post[]>> => {
-    const postsResponse: Response<Post[]> = { ok: true, message: '', data: undefined };
+export const getPosts = async (dummy: string, token: string): RawPromise => {
+    const postsResponse: Response<Post[]> = {status:200, ok: true, message: '', data: undefined };
     const url = `${serverUrl}:${serverPort}${posturl}`;
-    const response = await fetch(url, {
+    return fetch(url, {
         headers: {
             'authorization': `Bearer ${token}`
         }
     });
-    if (!response.ok) {
-        postsResponse.ok = false;
-        if(response.status === 401){
-            postsResponse.login = true;
-        }
-        return postsResponse;
-    }
-    postsResponse.data = await response.json();
-    return postsResponse;
 };
 
-export const getPostsByUser = async (userid: string, token: string): Promise<Post[]> => {
+export const getPostsByUser = async (userid: string, token: string): RawPromise => {
     const url = `${serverUrl}:${serverPort}${posturl}/?userid=${userid}`;
-    const response = await fetch(url, {
+    return fetch(url, {
         headers: { 'authorization': `Bearer ${token}` }
     });
-    return await response.json(); //אולי נרצה לשנות 
+   // return await response.json(); //אולי נרצה לשנות 
 };
-export const getPostById = async (postId: string, token: string): Promise<Post> => {
+export const getPostById = async (postId: string, token: string): RawPromise => {
     const url = `${serverUrl}:${serverPort}${posturl}/${postId}`;   // http://127.0.0.0:5000/api/posts/475ry3ere
-    const response = await fetch(url, {
+    return fetch(url, {
         headers: { 'authorization': `Bearer ${token}` }
     });
-    return await response.json(); //אולי נרצה לשנות 
+    
 };
-export const addLike = async (postId: string, token: string): Promise<Post> => {
+export const addLike = async (postId: string, token: string):RawPromise => {
     const url = `${serverUrl}:${serverPort}${posturl}/${postId}/like`;   // http://127.0.0.0:5000/api/posts/475ry3ere
-    const response = await fetch(url, {
+    return fetch(url, {
         headers: { 'authorization': `Bearer ${token}` },
         method: 'POST'
     });
-    return await response.json(); //אולי נרצה לשנות 
+   // return await response.json(); //אולי נרצה לשנות 
 };
-export const removeLike = async (postId: string, token: string): Promise<Post> => {
+export const removeLike = async (postId: string, token: string): RawPromise => {
     const url = `${serverUrl}:${serverPort}${posturl}/${postId}/like`;   // http://127.0.0.0:5000/api/posts/475ry3ere
-    const response = await fetch(url, {
+    return fetch(url, {
         headers: { 'authorization': `Bearer ${token}` },
         method: 'DELETE'
     });
-    return await response.json(); //אולי נרצה לשנות 
+    //return await response.json(); //אולי נרצה לשנות 
 };
-export const deletePost = async (postid: string, token: string): Promise<{ message: string }> => {
+export const deletePost = async (postid: string, token: string): RawPromise /*Promise<{ message: string }>*/ => {
     const url = `${serverUrl}:${serverPort}${posturl}/${postid}`;
-    const response = await fetch(url, {
+    return fetch(url, {
         method: 'DELETE',
         headers: { 'authorization': `Bearer ${token}` }
     }
     );
-    return await response.json();
+    //return await response.json();
 };
 

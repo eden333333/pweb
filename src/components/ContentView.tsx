@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import User from "../models/User";
 import './ContentView.css'
 import Commercial from "./Commercial";
+import { useApi } from "../hooks/useApi";
 
 /*
     firstName: string,
@@ -22,6 +23,8 @@ const ContentView = () => {
     const [view, setView] = useState<"all" | "my">("all");
     const [posts, setPosts] = useState<Post[]>([]);
 
+    const {callServer, loading} = useApi<string, Post[]>()
+
     const signalChange = () => setChange((change + 1)%2);
     const filterPosts = () => {
         return view === "all" ? posts : posts.filter(post => (post.user as User)!._id! === ctx.user!._id!);
@@ -31,7 +34,8 @@ const ContentView = () => {
         if(!ctx.token){
             return;
         }
-        const response = await getPosts(ctx.token!);
+        await callServer({api:getPosts, modelData:''})
+        const response = await callServer({api:getPosts, modelData:''}); //getPosts(ctx.token!);
         if(response.ok){
             setPosts(response.data!)
         }else if(response.login){

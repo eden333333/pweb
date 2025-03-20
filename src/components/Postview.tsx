@@ -9,6 +9,7 @@ import { addLike, deletePost, removeLike } from "../api/postApi";
 import './Postview.css'
 import { getCommentsCountByPost } from "../api/commentApi";
 import { imageUrl } from "../api/serverApi";
+import { useApi } from "../hooks/useApi";
 
 type PostViewProps = {
     post: Post;
@@ -20,6 +21,8 @@ const Postview = ({ post, signalChange }: PostViewProps) => {
     const ctx = useContext(Context);
     const userId = ctx.user!._id;
     const [commentCount, setCommentsCount] = useState<number>(0);
+    const {callServer: callServerCount} = useApi<string, {count:number}>();
+    const {callServer: callServerLike} = useApi<string, {}>();
 
     const postUser = post.user as User;
     const deletePostHandler = async () => {
@@ -28,18 +31,20 @@ const Postview = ({ post, signalChange }: PostViewProps) => {
     }
 
    const getCommentsCount = async () => {
-        const commentsCount = await getCommentsCountByPost(post._id!, ctx.token);
+    
+        const response = await callServerCount({api:getCommentsCountByPost, modelData:''}); //getCommentsCountByPost(post._id!, ctx.token);
+        const commentsCount = response.data;
         if(commentsCount){
             setCommentsCount(commentsCount.count);
         }
     }
     const togglelike = async () => {
         if(post.likes.includes(userId!)){
-            await removeLike(post._id!, ctx.token!);
+            await callServerLike({api: removeLike, modelData:post._id!})
+            // await removeLike(post._id!, ctx.token!);
         }else{
-            await addLike(post._id!, ctx.token!);
-
-
+            await callServerLike({api: addLike, modelData:post._id!})
+            // await addLike(post._id!, ctx.token!);
         }
         signalChange();
 

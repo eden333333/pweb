@@ -1,11 +1,12 @@
 
 import User from "../models/User";
 import { serverPort, serverUrl } from "./serverApi";
+import { RawPromise } from "../models/Response";
 
 // api/users
 const userUrl = '/api/users';
 
-export const updateUser = async (user: User, token:string): Promise<User> => {
+export const updateUser = async (user: User, token:string): RawPromise => {
     const formData = new FormData();
     formData.append('firstName', user.firstName);
     formData.append('lastName', user.lastName);
@@ -14,33 +15,31 @@ export const updateUser = async (user: User, token:string): Promise<User> => {
     if(user.image){
         formData.append('image', user.image);
     }
-    console.log(user);
     
     const url = `${serverUrl}:${serverPort}${userUrl}/${user._id}`;
-    const response = await fetch(url, {
+    return fetch(url, {
         method: "PUT",
         headers: {
             'authorization': `Bearer ${token}`
         },
         body: formData
     });
-    return await response.json();
+    
 };
 
-export const getUsers = async (): Promise<User[]> => {
+export const getUsers = async (): RawPromise => {
     const url = `${serverUrl}:${serverPort}${userUrl}`;
-    const response = await fetch(url);
-    return await response.json();
+    return fetch(url);
 };
 
-export const getUser = async (userId: string): Promise<User> => {
+export const getUser = async (userId: string): RawPromise => {
     const url = `${serverUrl}:${serverPort}${userUrl}/${userId}`;
-    const response = await fetch(url);
-    return await response.json();
+    return fetch(url);
+    
 };
 
-export const deleteUser = async (userId: string): Promise<{ message: string }> => {
+export const deleteUser = async (userId: string): RawPromise /*Promise<{ message: string }>*/  => {
     const url = `${serverUrl}:${serverPort}${userUrl}/${userId}`;
-    const response = await fetch(url, { method: "DELETE" });
-    return await response.json();
+    return fetch(url, { method: "DELETE" });
+
 };

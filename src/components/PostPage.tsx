@@ -9,6 +9,7 @@ import { deletePost, getPostById } from "../api/postApi";
 import './PostPage.css'
 import { useParams } from "react-router-dom";
 import { imageUrl } from "../api/serverApi";
+import { useApi } from "../hooks/useApi";
 
 
 const PostPage = () => {
@@ -17,13 +18,15 @@ const PostPage = () => {
     const userId = ctx.user!._id;
     const [change, setChange] = useState<number>(0);
     const [post, setPost] = useState<Post>();
+    const {callServer, loading} = useApi<string, Post>()
 
 
     const deletePostHandler = async () => {
         await deletePost(post!._id!, ctx.token!);
     }
     const getPost = async () => {
-        const post = await getPostById(postId!, ctx.token);
+        const response = await callServer({api:getPostById,modelData:postId!},);
+        const post = response.data; //await getPostById(postId!, ctx.token);
         setPost(post);
     }
     useEffect(() => {

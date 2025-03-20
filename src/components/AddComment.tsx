@@ -4,11 +4,14 @@ import Comment from "../models/Comment";
 import { Context } from "../context/Context";
 
 import './AddComment.css'
+import { useApi } from "../hooks/useApi";
+import Response from "../models/Response";
 
 
 const AddComment = ({ postId, setChange, change }: { postId: string, setChange:(n:number)=>void, change:number }) => {
     const ctx = useContext(Context);
     const [data, setData] = useState<Comment>({ user: ctx.user!._id!, comment: '', createdAt: '', postId: postId });
+    const {callServer, loading} = useApi<Comment, Comment>()
 
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const id = event.target.id;
@@ -19,7 +22,8 @@ const AddComment = ({ postId, setChange, change }: { postId: string, setChange:(
         event.preventDefault();
 
         try {
-            const newComment = await createComment(data, ctx.token!);
+            // const newComment = await createComment(data, ctx.token!);
+            const response = await callServer({api:createComment,modelData:data},);
             setChange((change+1)%2)
             setData({ user: ctx.user!._id!, comment: '', createdAt: '', postId: postId })
         } catch (error) {

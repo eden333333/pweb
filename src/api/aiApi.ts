@@ -1,5 +1,3 @@
-import { log } from "console";
-
 
 export const getGptCommercial = async() => {
     try{
